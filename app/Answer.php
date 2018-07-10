@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    protected $fillable = ['user_id', 'question_id', 'survey_id','answer'];
+    //
+    protected $table = 'answers';
 
-    protected $hidden = [
-        'user_id'
-    ];
+    protected $fillable = ['user_id', 'question_id', 'survey_id', 'answer'];
+
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
 }

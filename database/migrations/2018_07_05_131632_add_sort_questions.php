@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToQuestions extends Migration
+class AddSortQuestions extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddStatusToQuestions extends Migration
      */
     public function up()
     {
+        //
         Schema::table('questions', function (Blueprint $table) {
-            $table->enum('status', ['published', 'deleted'])->default('published');
+            $table->integer('sort_order')->default(0);
         });
     }
 

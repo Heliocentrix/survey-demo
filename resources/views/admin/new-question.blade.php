@@ -7,7 +7,7 @@
                <div class="panel panel-default">
                     
                     <div class="panel-body">                         
-                         <form class="form-horizontal" method="POST" action="/survey/save">
+                         <form class="form-horizontal" method="POST" action="/question/save">
                               {{ csrf_field() }}
                               
                               <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
@@ -25,7 +25,7 @@
                               <div class="form-group{{ $errors->has('question_category') ? ' has-error' : '' }}">
                                   <label for="question_category" class="col-md-4 control-label">Question Category</label>
                                   
-                                  <div class="col-md-6">
+                                  <div class="col-md-4">
                                        <select  id="question_category" class="form-control " name="question_category" value="{{ old('question_category') }}"  >
                                             <option value="">--SELECT--</option>
                                             <option value="General">General</option>
@@ -43,14 +43,15 @@
                               <div class="form-group{{ $errors->has('question_type') ? ' has-error' : '' }}">
                                    <label for="question_type" class="col-md-4 control-label">Question Type</label>
                                    
-                                   <div class="col-md-6">
+                                   <div class="col-md-4">
                                         <select  id="question_type" class="form-control select-question-type" name="question_type" value="{{ old('question_type') }}" required >
                                              <option value="">--SELECT--</option>                                   
                                              <option value="fillintheblank">Fill in The Blank</option>
                                              <option value="textarea">Textarea</option>
                                              <option value="single">Single Select</option>
-                                             {{-- <option value="multiple">Multiple Select</option> --}}
+                                             <option value="multiple">Multiple Select</option>
                                              <option value="ratings">Ratings(1-5)</option>
+                                             <option value="custom">Custom</option>
                                         </select>
                                         @if ($errors->has('question_type'))
                                         <span class="help-block">
@@ -58,9 +59,18 @@
                                         </span>
                                         @endif
                                    </div>
+
+                                   <div class="col-md-2 add-button">
+                                      <button class="btn btn-success" id="add">Add</button>
+                                   </div> 
                               </div>
                      
-                              <div class="question-choices">
+                              <div class="">
+                                  <div class="form-group ">
+                                      <div class="col-md-6 col-md-offset-4 question-choices">
+                                     
+                                      </div>
+                                 </div>
                               </div>
                               
                               
@@ -85,7 +95,28 @@
 @section('script')
 
 <script>
-          var selected = $('select-question-type').val()
+         
+    $( function() {
+      $('.add-button').hide();
+          $('.select-question-type').on('change',function(){
+            var selected = $(this).val()
+
+
+            if(selected == "multiple"){
+              $('.add-button').show();
+            }
+            console.log(selected);
+          });
+          $('#add').on('click', function( e ) {
+            e.preventDefault();
+          $('.question-choices').append("<input type='text' name='options[]' class='form-control'> <br>");
+        });
+        $(document).on('click', 'button.remove', function( e ) {
+            e.preventDefault();
+            $(this).closest( 'div.new-text-div' ).remove();
+        });
+
+        });
      </script>
 
 {{--  <script>

@@ -1,10 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class ChangeAnswerColumn extends Migration
+class AddAdminLogin extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +12,14 @@ class ChangeAnswerColumn extends Migration
     public function up()
     {
         //
-        Schema::table('answers', function (Blueprint $table) {
-            $table->string('answer')->nullable()->change();
-        });
+        DB::table('admins')->insert(
+            [
+                'name'     => 'admin',
+                'email'    => 'admin@test.com',
+                'role'     => 'admin',
+                'password' => Hash::make('admintest'),
+            ]
+        );
     }
 
     /**

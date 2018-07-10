@@ -23,11 +23,25 @@
                             
                             <div class="form-group">
                                 <div class="col-md-12 well ">
-                                    <div class="question_title">{{$question->title}}</div>
+                                    <div class="question_title">{{$question->sort_order+1 }}.  {{$question->title}}</div>
                                     
                                     @if($question->question_type == "fillintheblank")
                                     <input type="text" name="answer[{{$question->id}}]" class="form-control" required>
-                                    
+                                    @elseif($question->question_type == "multiple")
+                                
+                                    @foreach($question->options as $option)
+                                            <div class="col-md-12">
+                                                    
+                                                    <div class="input-group">
+                                                        <span class="input-group">
+                                            
+                                            <input type="checkbox" name="answer[{{$question->id}}][{{$option->id}}]" value="{{$option->id}}"> {{$option->text}}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                </div>
+                                            
+                                    @endforeach
                                     @elseif($question->question_type == "single")
                                     <div class="row">
                                         <div class="col-md-6">
@@ -50,7 +64,7 @@
                                         </div>
                                     </div>
                                     @elseif($question->question_type == "textarea")
-                                    <textarea type="text" name="answer[]" class="form-control"> </textarea>
+                                    <textarea type="text" name="answer[{{$question->id}}]" class="form-control"> </textarea>
                                     @elseif($question->question_type == "ratings")
                                     
                                     <div class="row ratings">
