@@ -62,58 +62,69 @@ class SurveyController extends Controller
         return redirect()->back();
     }
 
-
     public function assign_questions($id){
         $survey = Survey::find($id);
         $questions = Question::all();
         return view('admin.survey.assign-questions', compact('survey', 'questions'));
     }
-
+    
     public function store_surveyQuestions(Request $request){
         
         $data = $request->except('_token');
         foreach ($data['question_ids'] as $key => $question_id) {
-                $survey_question =  new SurveyQuestions();
-                $survey_question->survey_id = $data['survey_id'];
-                $survey_question->question_id = $question_id;
-                $survey_question->order = $key+1;
-                $survey_question->save();
+            $survey_question =  new SurveyQuestions();
+            $survey_question->survey_id = $data['survey_id'];
+            $survey_question->question_id = $question_id;
+            $survey_question->order = $key+1;
+            $survey_question->save();
         }
         return redirect()->back();
     }
+    
+    public function edit($id){
+        $survey = Survey::find($id);
+        $survey_categories = SurveyType::all();
+        return view('admin.survey.edit', compact('survey','survey_categories'));
+    }
+    
+    public function destroy($id){
+        $survey = Survey::find($id);
+        $survey->delete();
+        return back();
+    }
 
-
-
-
-
+    public function showTemplate($id){
+        $survey = Survey::find($id);
+        $survey_categories = SurveyType::all();
+        return view('admin.survey.survey-template', compact('survey','survey_categories'));
+    }
     /**
-     * Show the deleted questions.
-     *
-     * @return \Illuminate\View\View
-     */
+    * Show the deleted questions.
+    *
+    * @return \Illuminate\View\View
+    */
     public function view_archives()
     {
         //display archieved questions
         $archieves = Question::where('status', 'deleted')->get();
-
+        
         return view('admin.retrieve-question', compact('archieves'));
     }
-
+    
     /**
-     * update the sort order.
-     */
+    * update the sort order.
+    */
     public function sort_questions(Request $request)
     {
         $data = $request->all();
-
+        
         foreach ($data['data'] as $key => $value) {
             $question = Question::find($value['question_id']);
             $question->sort_order = $value['order'];
             $question->update();
         }
-
+        
         return $data;
     }
     
- 
 }

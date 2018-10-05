@@ -48,7 +48,7 @@
                                         <td>
                                       
                                            
-                                             <a href="/survey/{{$survey->id}}/delete" > <span class="btn btn-xs btn-default" >view</span></a>
+                                             <a href="/survey/{{$survey->id}}/view" > <span class="btn btn-xs btn-default" >view</span></a>
                                              <a href="/survey/{{$survey->id}}/assignQuestions"> <span class="btn btn-xs btn-default" >assign question</span></a>
                                              <a href="/survey/{{$survey->id}}/delete"> <span class="btn btn-xs btn-default" >delete</span></a>
                                              {{--  <button type="button" class="btn btn-primary pull-right" style="margin-bottom:5px; margin-right:5px;" ><span class="btn-label icon fa fa-plus"></span> Create Survey</button>  --}}

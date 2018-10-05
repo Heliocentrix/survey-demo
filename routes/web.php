@@ -26,6 +26,9 @@ Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/survey', 'SurveyController@index')->name('survey');
 Route::post('/survey/store', 'SurveyController@store');
 
+Route::get('/survey/{id}/edit', 'SurveyController@edit');
+Route::get('/survey/{id}/delete', 'SurveyController@destroy');
+Route::get('/survey/{id}/view', 'SurveyController@showTemplate');
 Route::get('/survey/{id}/assignQuestions', 'SurveyController@assign_questions');
 Route::post('/survey-questions/store', 'SurveyController@store_surveyQuestions');
 

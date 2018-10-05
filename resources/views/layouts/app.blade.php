@@ -16,7 +16,7 @@
 	<link href="{{ URL::to('stylesheets/pixel-admin.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::to('stylesheets/themes.min.css') }}" rel="stylesheet" type="text/css">
 	<link href="{{ URL::to('assets/css/animate.css') }}" rel="stylesheet" type="text/css">
-	<link href="{{ URL::to('style.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ URL::to('css/style.css') }}" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
