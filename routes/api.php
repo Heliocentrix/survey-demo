@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 Route::get('/questions', 'ApiController@get_questions');
 Route::post('/survey/submit', 'ApiController@submit_survey');
 
+Route::get('/{slug}', 'ApiController@check');
+
+Route::get('/survey_category', 'api\SurveyTypeController@getSurveyCategory');
+Route::post('/survey_category/submit', 'api\SurveyTypeController@submit_surveyCategory');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

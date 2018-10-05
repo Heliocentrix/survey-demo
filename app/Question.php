@@ -17,4 +17,8 @@ class Question extends Model
     {
         return $this->hasMany(Option::class);
     }
+    public function survey_questions()
+    {
+        return $this->hasMany(SurveyQuestions::class);
+    }
 }

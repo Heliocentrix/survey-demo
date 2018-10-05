@@ -20,18 +20,34 @@ Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
 
 //survey
-Route::get('/survey', 'SurveyController@index')->name('admin.dashboard');
-Route::get('/survey/results', 'SurveyController@view_results')->name('results');
-Route::get('/survey/archives', 'SurveyController@view_archives')->name('archives');
-Route::get('/result/{id}', 'SurveyController@user_result')->name('user.result');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-//crud
-Route::get('/question/new', 'QuestionController@new_question');
-Route::get('/question/{id}/edit', 'QuestionController@edit_question');
-Route::get('/question/{id}/delete', 'QuestionController@delete_question');
+//survey
+Route::get('/survey', 'SurveyController@index')->name('survey');
+Route::post('/survey/store', 'SurveyController@store');
+
+Route::get('/survey/{id}/assignQuestions', 'SurveyController@assign_questions');
+Route::post('/survey-questions/store', 'SurveyController@store_surveyQuestions');
+
+
+
+Route::post('/survey/category/create', 'SurveyCategoryController@store');
+Route::get('/survey/archives', 'SurveyController@view_archives')->name('archives');
+
+
+
+//reports
+Route::get('/reports', 'ReportsController@index')->name('reports');
+Route::get('/result/{id}', 'ReportsController@user_result')->name('user.result');
+
+//questions
+Route::get('/questions', 'QuestionController@index')->name('questions');
+Route::get('/question/create', 'QuestionController@create');
+Route::get('/question/{id}/edit', 'QuestionController@edit');
+Route::get('/question/{id}/delete', 'QuestionController@destroy');
 Route::get('/question/{id}/retrieve', 'QuestionController@retrieve_question');
-Route::post('/question/save', 'QuestionController@store_question');
-Route::post('/question/update', 'QuestionController@update_question');
+Route::post('/question/save', 'QuestionController@store');
+Route::post('/question/update', 'QuestionController@update');
 
 /*end admin routes*/
 

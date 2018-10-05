@@ -1,0 +1,36 @@
+
+<div *ngFor="let survey of surveys; let i = index">
+  <div class="jumbotron">
+    <h2>{{survey.name}}</h2>
+    <hr class="my-4">
+    <p>{{survey.description}}</p>
+  </div>
+</div>
+
+<div  class="col-md-12">
+  <form  *ngIf="surveyForm != undefined" class="form panel" [formGroup]="surveyForm" (submit)="onSubmit()">
+    <div class="form-group">
+      <label>  Survey_Id: </label>  <input  type="text" class="form-control" name="text" formControlName="survey_id">
+    </div>
+    <div class="form-group">
+      <label>Email: </label>  <input  type="email" class="form-control" name="email" formControlName="email">
+    </div>
+    <div class="" >
+      <div  formArrayName="questions" *ngFor="let question of questions.controls; let j=index">
+        <div formGroupName = "{{ j }}">
+
+            {{ question.get('type').value }}
+          <div class="form-group">
+            <label> {{ question.get('title').value }} </label>
+            <input type="text" class="form-control" formControlName="value">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-sm btn-primary">Save</button>
+    </div>
+
+  </form>
+</div>

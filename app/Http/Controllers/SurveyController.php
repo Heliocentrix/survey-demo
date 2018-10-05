@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Question;
+use App\Survey;
+use App\SurveyQuestions;
+use App\SurveyType;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -25,11 +28,63 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        //display published questions
-        $questions = Question::where('status', 'published')->orderBy('sort_order')->get();
-
-        return view('admin.survey', compact('questions', 'archieves'));
+        $surveys = Survey::all();
+        $survey_categories = SurveyType::all();
+        return view('admin.survey.list', compact('surveys', 'survey_categories'));
     }
+
+
+    /**
+     * 
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('admin.survey.create');
+    }
+
+
+      /**
+     * 
+     *
+     * @return \Illuminate\View\View
+     */
+    public function store(Request $request)
+    {
+        $survey = new Survey();
+        $survey->name = $request->survey_name;
+        $survey->description = $request->survey_description;
+        $survey->url = $request->survey_url;
+        $survey->survey_type_id = $request->category_id;
+        $survey->save();
+
+        return redirect()->back();
+    }
+
+
+    public function assign_questions($id){
+        $survey = Survey::find($id);
+        $questions = Question::all();
+        return view('admin.survey.assign-questions', compact('survey', 'questions'));
+    }
+
+    public function store_surveyQuestions(Request $request){
+        
+        $data = $request->except('_token');
+        foreach ($data['question_ids'] as $key => $question_id) {
+                $survey_question =  new SurveyQuestions();
+                $survey_question->survey_id = $data['survey_id'];
+                $survey_question->question_id = $question_id;
+                $survey_question->order = $key+1;
+                $survey_question->save();
+        }
+        return redirect()->back();
+    }
+
+
+
+
 
     /**
      * Show the deleted questions.
@@ -59,23 +114,6 @@ class SurveyController extends Controller
 
         return $data;
     }
-
-    //RESULTS
-    public function view_results()
-    {
-        $answers = Answer::distinct()->get(['user_id']);
-
-        return view('admin.survey-results', compact('answers'));
-    }
-
-    public function user_result($id)
-    {
-        //get all answer of specific user
-        $questions = Question::where('status', 'published')->get();
-        $answers = Answer::where('user_id', $id)->get();
-
-        return view('admin.user-result', compact('questions', 'answers'));
-    }
-
-    //END RESULTS
+    
+ 
 }

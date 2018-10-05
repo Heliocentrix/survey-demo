@@ -3,8 +3,7 @@
 @section('content')
 <div class="container">
      <div class="row">
-          @include('admin.partials.side-menu')
-          
+
           <div class="col-md-10">
                <div class="panel panel-default">
                     <div class="panel-heading">
