@@ -1,0 +1,36 @@
+
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Create Survey</div>
+            <div class="panel-body">
+                <form [formGroup]="createSurveyForm" (ngSubmit)="createSurvey()" class="form">
+                    <div class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.survey_name.errors }">
+                        <label for="survey_name" class="col-md-4 col-sm-5 col-xs-12">Survey Name</label>
+                        <div class="col-md-8 col-sm-7 col-xs-12">
+                            <input type="text" class="form-control" formControlName="survey_name" />
+                            <div *ngIf="submitted && f.survey_name.errors" class="help-block">
+                                  <div *ngIf="f.survey_name.errors.required">survey_name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix" [ngClass]="{ 'has-error': submitted && f.survey_category.errors }">
+                      <label for="survey_category" class="col-md-4 col-sm-5 col-xs-12">Survey Category</label>
+                      <div class="col-md-8 col-sm-7 col-xs-12">
+                          <input type="text" class="form-control" formControlName="survey_category"/>
+                          <div *ngIf="submitted && f.survey_category.errors" class="help-block">
+                                  <div *ngIf="f.survey_category.errors.required">Survey Category is required</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 form-group text-right">
+                      <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                </form>
+              </div>
+        </div>
+
+
+    </div>
+</div>

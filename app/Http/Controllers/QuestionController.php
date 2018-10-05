@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Option;
 use App\Question;
+use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -17,26 +18,40 @@ class QuestionController extends Controller
         $this->middleware('auth:admin');
     }
 
-    public function new_question()
+        /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
     {
-        return view('admin.new-question');
+        //display published questions
+        $questions = Question::where('status', 'published')->orderBy('sort_order')->get();
+
+        return view('admin.questions.list', compact('questions', 'archieves'));
     }
 
-    public function edit_question($id)
+
+    public function create()
+    {
+        return view('admin.questions.create');
+    }
+
+    public function edit($id)
     {
         //get question by id
         $question = Question::where('id', $id)->first();
 
-        return view('admin.edit-question', compact('question'));
+        return view('admin.questions.edit', compact('question'));
     }
 
-    public function delete_question($id)
+    public function destroy($id)
     {
         $question = Question::find($id);
         $question->status = 'deleted';
         $question->update();
 
-        return redirect('/survey');
+        return redirect('/questions');
     }
 
     public function retrieve_question($id)
@@ -46,10 +61,10 @@ class QuestionController extends Controller
         $question->status = 'published';
         $question->update();
 
-        return redirect('/survey');
+        return redirect('/questions');
     }
 
-    public function store_question(Request $request)
+    public function store(Request $request)
     {
         $data = $request->except('_token');
 
@@ -72,10 +87,10 @@ class QuestionController extends Controller
             }
         }
 
-        return redirect('/survey');
+        return redirect('/questions');
     }
 
-    public function update_question(Request $request)
+    public function update(Request $request)
     {
         $question = Question::find($request->question_id);
 
@@ -101,6 +116,6 @@ class QuestionController extends Controller
             }
         }
 
-        return redirect('/survey');
+        return redirect('/questions');
     }
 }
