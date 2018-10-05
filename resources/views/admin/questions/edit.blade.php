@@ -49,6 +49,7 @@
                                              <option value="">--SELECT--</option>
                                              <option value="fillintheblank"  @if($question->question_type == "fillintheblank")selected="selected" @endif >Fill in The Blank</option>
                                              <option value="textarea"  @if($question->question_type == "textarea")selected="selected" @endif >Textarea</option>
+                                             <option value="truefalse" @if($question->question_type == "truefalse")selected="selected" @endif>True or False</option>
                                              <option value="single" @if($question->question_type == "single")selected="selected" @endif>Single Select</option>
                                              <option value="multiple" @if($question->question_type == "multiple")selected="selected" @endif>Multiple Select</option>
                                              <option value="ratings" @if($question->question_type == "ratings")selected="selected" @endif>Ratings(1-5)</option>

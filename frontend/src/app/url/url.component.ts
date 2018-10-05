@@ -14,7 +14,7 @@ import { FormGroup, FormBuilder, FormControl, FormArray, Validators} from '@angu
   styleUrls: ['./url.component.css']
 })
 export class UrlComponent implements OnInit {
-//  fg: any;
+  //  fg: any;
   errorMessage: string;
   public available: boolean;
   public redirect = '/dashboard';
@@ -45,8 +45,8 @@ export class UrlComponent implements OnInit {
 
       // push question to array
       for (let i = 0; i < surveys[0].survey_questions.length; i++) {
-          arr.push(this.buidlData(surveys[0].survey_questions[i]));
-         q.push(surveys[0].survey_questions[i].question);
+        arr.push(this.buidlData(surveys[0].survey_questions[i]));
+        q.push(surveys[0].survey_questions[i].question);
 
       }
       console.log(this.survey_questions);
@@ -75,19 +75,25 @@ export class UrlComponent implements OnInit {
   onSubmit() {
     console.log(this.surveyForm.value);
 
-    //   this.dataService.submitAnswers(this.surveyForm.value).subscribe(data => {
-    //     console.log(data);
-    // });
+    this.dataService.submitAnswers(this.surveyForm.value).subscribe(data => {
+
+      if (data['success']) {
+        console.log(data);
+      } else {
+        console.log(data);
+      }
+
+    });
   }
 
   buidlData(questions): FormGroup {
-   // console.log(questions.question.title);
-   //// this.fg = this.fb.group(questions);
-  // const fg = new FormGroup({});
-     // fg.addControl(questions.question.title, new FormControl(false));
-// this.questions.push(new FormControl());
+    // console.log(questions.question.title);
+    //// this.fg = this.fb.group(questions);
+    // const fg = new FormGroup({});
+    // fg.addControl(questions.question.title, new FormControl(false));
+    // this.questions.push(new FormControl());
 
-  //  const allOptions: FormArray = new FormArray([]);
+    //  const allOptions: FormArray = new FormArray([]);
     // for (let i = 0; i < questions.options.length; i++) {
     //   console.log(questions.options[i]);
     //   const fg = new FormGroup({});
@@ -96,17 +102,17 @@ export class UrlComponent implements OnInit {
     // }
 
 
-// console.log(questions.question.title);
-        return this.fb.group({
-          title: [questions.question.title],
-          type: [questions.question.question_type],
-          options: [questions.question.options],
-          id: [questions.question.id],
-        ///  options_value: allOptions,
-          value: ['']
-        });
+    // console.log(questions.question.title);
+    return this.fb.group({
+      title: [questions.question.title],
+      type: [questions.question.question_type],
+      options: [questions.question.options],
+      id: [questions.question.id],
+      ///  options_value: allOptions,
+      value: ['']
+    });
 
-      }
+  }
 
 
 

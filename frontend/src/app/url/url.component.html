@@ -20,10 +20,45 @@
         <div formGroupName = "{{ j }}">
 
             {{ question.get('type').value }}
-          <div class="form-group">
-            <label> {{ question.get('title').value }} </label>
-            <input type="text" class="form-control" formControlName="value">
-          </div>
+
+
+                <div class="form-group">
+                  <label> {{ question.get('title').value }} </label>
+                  <input  *ngIf="question.get('type').value == 'fillintheblank'" type="text" class="form-control" formControlName="value">
+                  <textarea *ngIf="question.get('type').value == 'textarea'"  class="form-control" formControlName="value"></textarea>
+                  <!-- <div class="row"  *ngIf="question.get('type').value == 'truefalse'">
+                    <div class="col-md-6">
+
+                      <input type="radio" formControlName="value"> TRUE
+                    </div>
+                    <div class="col-md-6">
+                      <input type="radio" formControlName="value"> FALSE
+                      </div>
+
+
+
+                  </div> -->
+
+                  <!-- <div class="row"  *ngIf="question.get('type').value  == 'ratings'">
+                      <div class="col-md-2 col-md-offset-1">
+
+                        <input type="radio" value="1"  required  ngModel> 1
+                      </div>
+                      <div class="col-md-2">
+                        <input type="radio" value="2"  required  ngModel> 2
+                      </div>
+                      <div class="col-md-2">
+                        <input type="radio" value="3"  required  ngModel> 3
+                      </div>
+                      <div class="col-md-2">
+                        <input type="radio" value="4"  required ngModel> 4
+                      </div>
+                      <div class="col-md-2">
+                        <input type="radio" value="5"  required ngModel> 5
+                      </div>
+                    </div> -->
+                    <!-- END RATINGS -->
+                </div>
         </div>
       </div>
     </div>
