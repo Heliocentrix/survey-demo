@@ -4,4 +4,24 @@
 .jumbotron {
   padding-top: 20px;
   padding-bottom: 20px;
+  background: #009688;
+  color: white
+}
+.col-md-12.survey-form {
+  padding: 25px;
+  /* background: #d9efed; */
+  background: white;
+  /* box-shadow: 10px 10px 15px 0px rgba(0, 122, 75, 0.36); */
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+.panel{
+  background-color: #d9efed;
+}
+.panel-default {
+  /* border-color: #ddd; */
+}
+body{
+  background: #d9efed;
+  padding: 20px;
 }

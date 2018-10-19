@@ -36,27 +36,42 @@ class ApiController extends Controller
             $id = $user->id;    
         }else{
             $answerExist = Answer::where('user_id', $userExist->id)->where('survey_id', $request['survey_id'])->get()->count();
-         
+            
             if($answerExist == 1){
                 return response()
                 ->json(['error' => "You have answer this survey alreay!"]);
             }
         }
         
-      
-        foreach($request['questions'] as $question){
+        
+        foreach($request['questions'] as $question) {
             $answers = new Answer();
             $answers->user_id = count($userExist) == 1 ? $userExist->id : $id;
             $answers->question_id = $question['id'];
             $answers->survey_id = $request['survey_id'];
-            $answers->answer = $question['value'];
+            
+            if(count($question['options'] > 0)){
+                foreach($question['options'] as $option) {      
+                    $answers = new Answer();
+                    $answers->user_id =  count($userExist) == 1 ? $userExist->id : $id;
+                    $answers->question_id = $question['id'];
+                    $answers->survey_id = $request['survey_id'];                                  
+                    $answers->answer = $option['id'];
+                    $answers->save();
+                }                
+            }
+                        
+            $answers->answer = $question['value']  ;
             $answers->save();
+            
         }
+        
+
         return response()
         ->json(['success' => "Thank you for answering our survey!"]);
-      
         
     }
+    
     
     public function getSurveyCategory()
     {
@@ -74,14 +89,16 @@ class ApiController extends Controller
     
     public function check($slug)
     {
-        $surveys = Survey::where('url',$slug)->get();       
+        $surveys = Survey::with('questions')->where('url',$slug)->get();       
         $questions = new Collection();
         foreach ($surveys as $survey) {
             foreach ($survey->survey_questions as $key => $value) {    
-                $questions->push($value->question);          
+                $questions->push($value->question->options);          
             }
         }
         $surveys->survey_questions = $questions;
+        
+        
         return response()
         ->json($surveys);
         

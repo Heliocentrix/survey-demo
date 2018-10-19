@@ -13,22 +13,27 @@ class AdminLoginController extends Controller
     {
         $this->middleware('guest:admin');
     }
-
+    
     public function showLoginForm()
     {
         return view('auth.admin-login');
     }
-
+    
     public function login(Request $request)
     {
-
+        
         //attempt to log the user in
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], false)) {
-
+            
             //if true go to dashboard
             return redirect()->intended(route('dashboard'));
         } else {
             return redirect()->back()->withInput($request->only('email'));
         }
+    }
+    
+    public function logout(){
+        Auth::logout();
+        return view('auth.admin-login');
     }
 }

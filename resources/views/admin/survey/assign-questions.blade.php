@@ -2,6 +2,8 @@
 
 @section('content')
 @include('admin.survey.header')
+
+{{$id = $survey->id}}
 <div class="container">
   <div class="row">
     <div class="col-md-6">
@@ -17,10 +19,11 @@
                 <th style="width:100px;" class="hidden-xs">ID</th>
                 <th>Name</th>
                 <th style="width:210px;" class="text-right">Options</th>
-              </tr>                       
+              </tr>                  
+           
               @foreach ($questions as $question)
               
-              <tr data-id="{{$question->id}}" data-survey-id="{{$question->survey_id}}">                                    
+              <tr data-id="{{$question->id}}" data-survey-id="{{$survey->id}}">                                    
                 <td>  <a href="/question/{{$question->id}}/edit">   {{$question->id}}</a> </td>
                 <td>  <a href="/question/{{$question->id}}/edit">   {{$question->title}}</a> </td>
                 <td>
@@ -30,6 +33,7 @@
               
               @endforeach
             </table>
+            <?php echo $questions->render(); ?>     
           </form>
         </div>
       </div>
@@ -50,12 +54,11 @@
                   <th style="width:210px;" class="text-right">Options</th>
                 </tr>          
                 
-                {{--  foreach ($survey->survey_questions  as $key => $value) {
-                  dd($value->question->title);
-              }  --}}
-                 @foreach ($survey->survey_questions  as $key => $survey)
+  
+              <tbody class="sortable" id="sortable">
+                 @foreach ($survey->survey_questions->sortBy('order')  as $key => $survey)
                 
-                <tr data-id="{{$survey->question->id}}" data-survey-id="{{$survey->question->id}}">                                    
+                <tr data-id="{{$survey->question->id}}" data-survey-id="{{$id}}"  data-survey-question-id="{{$survey->id}}" class="list-question">                                    
                   <td>  <a href="/question/{{$survey->id}}/edit">   {{$survey->question->id}}</a> </td>
                   <td>  <a href="/question/{{$survey->id}}/edit">   {{$survey->question->title}}</a> </td>
                   <td>
@@ -64,6 +67,7 @@
                 </tr>  
                 
                 @endforeach  
+              </tbody>
               </table>
               <button type="submit" class="btn " style="float:right;margin-top:20px;">Submit</button>
             </form>
@@ -123,22 +127,25 @@
         $(".list-question").each(function( index ) {                         
           $obj = {
             'question_id' : $( this ).attr('data-id'),
-            'survey_id' : $( this ).attr('data-survey-id'),
+            'survey_id' : $( this ).attr('data-survey-id'), 
+            'survey_question_id' : $(this).attr('data-survey-question-id'),
             'order' : index
           }
           
           $data.push($obj);
           
         });
+
+     //   console.log($data);
         
         // POST to server using $.post or $.ajax
-        $.ajax({
+     $.ajax({
           data: {'data' : $data},
           type: 'POST',
-          url: '/api/survey/sort'
+          url: '/api/survey/sortAssign'
           
         }).success(function(data) {
-          //  console.log(data);
+      //    console.log(data);
         })
         .error(function(data) { 
           alert('Error: ' + data); 

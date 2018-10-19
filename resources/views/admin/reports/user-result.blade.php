@@ -13,14 +13,15 @@
                     </div>                    
                     <div class="panel-body">                         
                          <div class="row" style="padding:15px">   
-                              
-                              @foreach ($answers as $answer)
-                              
-                              
-                              
+                              {{count($questions)}}
                               @foreach ($questions as $question)
+
+                          
+                              @foreach ($answers as $answer)
+                            
+                          
                               
-                              
+                     
                               @if( $answer->question_id  == $question->id )
                               <div class="form-group">
                                    <div class="col-md-12 well ">
@@ -50,7 +51,9 @@
                                         </div>
                                         
                                         @endforeach
-                                        @elseif($question->question_type == "single")
+
+                                        
+                                        @elseif($question->question_type == "single" ) 
                                         
                                         @php
                                         $ans = $answer->answer
@@ -76,8 +79,34 @@
                                                   
                                              </div>
                                         </div>
+                                        @elseif($question->question_type == "truefalse" ) 
+                                        
+                                        @php
+                                        $ans = $answer->answer
+                                        @endphp
+                                        
+                                        <div class="row">
+                                             <div class="col-md-6">
+                                                  
+                                                  <div class="input-group">
+                                                       <span class="input-group">
+                                                            <input type="radio" {{$ans == '1' ? 'checked' : '' }} > TRUE
+                                                       </span>
+                                                  </div>
+                                                  
+                                             </div>
+                                             <div class="col-md-6">
+                                                  
+                                                  <div class="input-group">
+                                                       <span class="input-group">
+                                                            <input type="radio" {{$ans == '0' ? "checked" : '' }} > FALSE
+                                                       </span>                                
+                                                  </div>
+                                                  
+                                             </div>
+                                        </div>
                                         @elseif($question->question_type == "textarea")
-                                        <textarea type="text"class="form-control">{{$answer->answer}} </textarea>
+                                            <textarea type="text"class="form-control">{{$answer->answer}} </textarea>
                                         @elseif($question->question_type == "ratings")
                                         
                                         @php

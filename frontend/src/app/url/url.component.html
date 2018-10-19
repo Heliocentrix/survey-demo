@@ -7,65 +7,106 @@
   </div>
 </div>
 
-<div  class="col-md-12">
-  <form  *ngIf="surveyForm != undefined" class="form panel" [formGroup]="surveyForm" (submit)="onSubmit()">
-    <div class="form-group">
-      <label>  Survey_Id: </label>  <input  type="text" class="form-control" name="text" formControlName="survey_id">
+
+<div  class="col-md-12 survey-form">
+  <form  *ngIf="surveyForm != undefined" class="form" [formGroup]="surveyForm" (submit)="onSubmit()">
+    <input  type="hidden" class="form-control" name="text" formControlName="survey_id">
+
+    <div class="">
+      <div class="panel-heading" >
+        <div class="form-group">
+          <label> Email </label>
+          <input  type="email" class="form-control" name="email" formControlName="email">
+        </div>
+
+      </div>
     </div>
-    <div class="form-group">
-      <label>Email: </label>  <input  type="email" class="form-control" name="email" formControlName="email">
-    </div>
+
+
+
     <div class="" >
       <div  formArrayName="questions" *ngFor="let question of questions.controls; let j=index">
-        <div formGroupName = "{{ j }}">
+        <div formGroupName = "{{j}}">
 
-            {{ question.get('type').value }}
-
-
-                <div class="form-group">
-                  <label> {{ question.get('title').value }} </label>
-                  <input  *ngIf="question.get('type').value == 'fillintheblank'" type="text" class="form-control" formControlName="value">
-                  <textarea *ngIf="question.get('type').value == 'textarea'"  class="form-control" formControlName="value"></textarea>
-                  <!-- <div class="row"  *ngIf="question.get('type').value == 'truefalse'">
-                    <div class="col-md-6">
-
-                      <input type="radio" formControlName="value"> TRUE
-                    </div>
-                    <div class="col-md-6">
-                      <input type="radio" formControlName="value"> FALSE
-                      </div>
+          <!-- <div class="panel panel-default"> -->
+          <div class="">
+            <div class="panel-heading" >
+              <div class="form-group">
+                <label> {{j+1}}. {{ question.get('title').value }} </label>
 
 
+                <!--FILL IN THE BLANK -->
+                <input  *ngIf="question.get('type').value == 'fillintheblank'" type="text" class="form-control" formControlName="value">
+                <!-- END FILL IN THE BLANK -->
 
-                  </div> -->
-
-                  <!-- <div class="row"  *ngIf="question.get('type').value  == 'ratings'">
-                      <div class="col-md-2 col-md-offset-1">
-
-                        <input type="radio" value="1"  required  ngModel> 1
-                      </div>
-                      <div class="col-md-2">
-                        <input type="radio" value="2"  required  ngModel> 2
-                      </div>
-                      <div class="col-md-2">
-                        <input type="radio" value="3"  required  ngModel> 3
-                      </div>
-                      <div class="col-md-2">
-                        <input type="radio" value="4"  required ngModel> 4
-                      </div>
-                      <div class="col-md-2">
-                        <input type="radio" value="5"  required ngModel> 5
-                      </div>
-                    </div> -->
-                    <!-- END RATINGS -->
+                <!-- TEXTAREA -->
+                <div class="form-group" *ngIf="question.get('type').value == 'textarea'" >
+                  <textarea  class="form-control" formControlName="value"></textarea>
                 </div>
+                <!-- END TEXTAREA -->
+
+
+                <!-- MULTPLE SELECT -->
+                <div class=" form-group"  *ngIf="question.get('type').value  == 'multiple'">
+                  <div *ngIf="question.get('options').length > 0">
+                    <div formArrayName="options" *ngFor="let option of question.get('options').value; let k = index;">
+                      <div formGroupName = "{{ k }}">
+                        <input type="checkbox"  formControlName="value"  value="{{option.question_id}}">  {{option.text}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- END MULTPLE SELECT -->
+
+
+                <!-- TRUE OF FALSE -->
+                <div class="form-group"  *ngIf="question.get('type').value == 'truefalse'">
+                  <div class="col-md-6" >
+                    <input type="radio" formControlName="value" value="1" > TRUE
+                  </div>
+                  <div class="col-md-6">
+                    <input type="radio" formControlName="value" value="0" > FALSE
+                  </div>
+                </div>
+                <!-- END TRUE OR FALSE -->
+
+
+                <!-- RATINGS -->
+                <div class="row"  *ngIf="question.get('type').value  == 'ratings'">
+                  <div class="col-md-2 col-md-offset-1">
+
+                    <input type="radio" value="1"  formControlName="value"> 1
+                  </div>
+                  <div class="col-md-2">
+                    <input type="radio" value="2"  formControlName="value"> 2
+                  </div>
+                  <div class="col-md-2">
+                    <input type="radio" value="3"  formControlName="value"> 3
+                  </div>
+                  <div class="col-md-2">
+                    <input type="radio" value="4"  formControlName="value"> 4
+                  </div>
+                  <div class="col-md-2">
+                    <input type="radio" value="5"  formControlName="value" > 5
+                  </div>
+                </div>
+                <!-- END RATINGS -->
+
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="form-group pull-right">
-      <button type="submit" class="btn btn-sm btn-primary">Save</button>
-    </div>
 
+
+
+
+
+    <div class="form-group pull-right">
+      <button type="submit" class="btn btn-md btn-primary">Save</button>
+    </div>
   </form>
 </div>

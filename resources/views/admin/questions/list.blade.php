@@ -31,6 +31,7 @@
                                    @endforeach
                               </ul>
                          </form>
+                         <?php echo $questions->render(); ?>    
                     </div>
                </div>
           </div>

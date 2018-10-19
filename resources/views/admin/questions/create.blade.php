@@ -9,7 +9,11 @@
                     <div class="panel-body">                         
                          <form class="form-horizontal" method="POST" action="/question/save">
                               {{ csrf_field() }}
-                              
+                            
+                              @if(isset($survey->id))
+                            
+                              <input type="text" value=" {{ $survey->id}}" name="survey_id">
+                            @endif
                               <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                    <label for="title" class="col-md-4 control-label">Question</label>
                                    
@@ -42,16 +46,15 @@
 
                               <div class="form-group{{ $errors->has('question_type') ? ' has-error' : '' }}">
                                    <label for="question_type" class="col-md-4 control-label">Question Type</label>
-                                   
                                    <div class="col-md-4">
                                         <select  id="question_type" class="form-control select-question-type" name="question_type" value="{{ old('question_type') }}" required >
                                              <option value="">--SELECT--</option>                                   
                                              <option value="fillintheblank">Fill in The Blank</option>
                                              <option value="textarea">Textarea</option>
+                                             <option value="truefalse">True or False</option>
                                              <option value="single">Single Select</option>
                                              <option value="multiple">Multiple Select</option>
                                              <option value="ratings">Ratings(1-5)</option>
-                                             <option value="custom">Custom</option>
                                         </select>
                                         @if ($errors->has('question_type'))
                                         <span class="help-block">

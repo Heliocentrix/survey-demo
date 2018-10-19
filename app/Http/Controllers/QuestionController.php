@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Option;
 use App\Question;
+use App\SurveyQuestions;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -26,7 +28,7 @@ class QuestionController extends Controller
     public function index()
     {
         //display published questions
-        $questions = Question::where('status', 'published')->orderBy('sort_order')->get();
+        $questions = Question::where('status', 'published')->orderBy('sort_order')->paginate(15);
 
         return view('admin.questions.list', compact('questions', 'archieves'));
     }
@@ -67,15 +69,23 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         $data = $request->except('_token');
-
+        $survey_id = $request->survey_id;
         //store submitted data to Question
         $question = new Question();
         $question->title = $request->title;
         $question->question_category = $request->question_category;
         $question->question_type = $request->question_type;
         $question->status = 'published';
-        $question->survey_id = 1;
+        $question->survey_id = isset($survey_id) ? $survey_id : 0;
         $question->save();
+
+        if(isset($survey_id) && $question->save()){
+            $survey_question =  new SurveyQuestions();
+            $survey_question->survey_id = $survey_id;
+            $survey_question->question_id = $question->id;
+            $survey_question->order = 0;
+            $survey_question->save();
+        }
 
         if ($question->save() && $request->question_type == 'multiple') {
             $id = $question->id;
@@ -86,7 +96,9 @@ class QuestionController extends Controller
                 $option->save();
             }
         }
-
+        if(isset($survey_id)){
+            return redirect('/survey/'.$survey_id.'/view');
+        }
         return redirect('/questions');
     }
 

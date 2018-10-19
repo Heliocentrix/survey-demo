@@ -6,9 +6,10 @@
                <h1 class="col-xs-12 col-sm-9 text-center text-left-sm"><i class="fa fa-tasks page-header-icon"></i>Survey</h1>
                <div class="col-xs-12 col-sm-3">
                     <div class="row">
-                         {{--  <a href="survey/category/create" class="btn btn-primary pull-right"><span class="btn-label icon fa fa-plus"></span> Add Category</a>  --}}
                          <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#addCategoryModal"><span class="btn-label icon fa fa-plus"></span> Add Category</button>
-                         <button type="button" class="btn btn-primary pull-right" style="margin-bottom:5px; margin-right:5px;" data-toggle="modal" data-target="#createSurveyModal"><span class="btn-label icon fa fa-plus"></span> Create Survey</button>
+                         {{-- <button type="button" class="btn btn-primary pull-right" style="margin-bottom:5px; margin-right:5px;" data-toggle="modal" data-target="#createSurveyModal"><span class="btn-label icon fa fa-plus"></span> Create Survey</button> --}}
+                         {{-- <button type="button" class="btn btn-primary pull-right" style="margin-bottom:5px; margin-right:5px;" href="survey/create"><span class="btn-label icon fa fa-plus"></span> Create Survey</button> --}}
+                         <a  class="btn btn-primary pull-right" style="margin-bottom:5px; margin-right:5px;" href="survey/create"><span class="btn-label icon fa fa-plus"></span> Create Survey</a>
                          
                     </div>
                </div>

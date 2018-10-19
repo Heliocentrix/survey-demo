@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'response', component: DynamicSurveyComponent },
   { path: 'survey/create', component: CreateComponent },
   { path: 'survey/category/create', component: CreateCategoryComponent },
   // { path: '/', component: CreateCategoryComponent },

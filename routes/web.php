@@ -18,12 +18,14 @@ Auth::routes();
 //login
 Route::get('/', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+Route::get('/auth/logout', 'Auth\AdminLoginController@logout');
 
 //survey
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
-//survey
+//survey  
 Route::get('/survey', 'SurveyController@index')->name('survey');
+Route::get('/survey/create', 'SurveyController@create');
 Route::post('/survey/store', 'SurveyController@store');
 
 Route::get('/survey/{id}/edit', 'SurveyController@edit');
@@ -32,7 +34,7 @@ Route::get('/survey/{id}/view', 'SurveyController@showTemplate');
 Route::get('/survey/{id}/assignQuestions', 'SurveyController@assign_questions');
 Route::post('/survey-questions/store', 'SurveyController@store_surveyQuestions');
 
-
+Route::get('/survey/{id}/customQuestion', 'SurveyController@customQuestion');
 
 Route::post('/survey/category/create', 'SurveyCategoryController@store');
 Route::get('/survey/archives', 'SurveyController@view_archives')->name('archives');
@@ -56,3 +58,4 @@ Route::post('/question/update', 'QuestionController@update');
 
 /*jquery api*/
 Route::post('/api/survey/sort', 'SurveyController@sort_questions')->name('question.sort');
+Route::post('/api/survey/sortAssign', 'SurveyController@sort_questions');

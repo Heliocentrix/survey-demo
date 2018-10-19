@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Image;
+use Storage;
 use App\Answer;
 use App\Question;
 use App\Survey;
 use App\SurveyQuestions;
 use App\SurveyType;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -41,7 +44,8 @@ class SurveyController extends Controller
      */
     public function create()
     {
-        return view('admin.survey.create');
+        $survey_categories = SurveyType::all();
+        return view('admin.survey.create', compact('survey_categories'));
     }
 
 
@@ -52,19 +56,46 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
+
+    //    dd(public_path());
+        $file = $request->file('survey_logo');
+      
+        $image = Image::make($file);
+        
+
+        $logos_path = '/logos';
+        $image->resize(null, 400, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $filename  = $file->getClientOriginalName();
+ 
+
+        Storage::disk('local')->put($logos_path . '/' . $filename, (string) $image->encode($file->getClientOriginalExtension()), 'public');
+
+
         $survey = new Survey();
         $survey->name = $request->survey_name;
         $survey->description = $request->survey_description;
         $survey->url = $request->survey_url;
         $survey->survey_type_id = $request->category_id;
+        $survey->logo = $filename;
+        $survey->background_colour = $request->background_colour;
+        $survey->colour = $request->colour;
         $survey->save();
 
-        return redirect()->back();
+         return redirect()->back();
+    }
+
+
+    public function customQuestion($id){
+        $survey = Survey::find($id);
+        $questions = Question::all();      
+        return view('admin.questions.create', compact('survey', 'questions'));
     }
 
     public function assign_questions($id){
         $survey = Survey::find($id);
-        $questions = Question::all();
+        $questions = Question::paginate(15);
         return view('admin.survey.assign-questions', compact('survey', 'questions'));
     }
     
@@ -117,12 +148,23 @@ class SurveyController extends Controller
     public function sort_questions(Request $request)
     {
         $data = $request->all();
-        
-        foreach ($data['data'] as $key => $value) {
-            $question = Question::find($value['question_id']);
-            $question->sort_order = $value['order'];
+         //dd($data);
+        foreach($data['data'] as $key => $value){
+           
+            // $question = SurveyQuestions::updateOrCreate(
+            //     ['id' => $value['survey_question_id']],
+            //     ['order' => $value['order']]
+            // );
+            $question = SurveyQuestions::find($value['survey_question_id']);
+            $question->order = $value['order']+1;
             $question->update();
+           // dd($question);
         }
+        // foreach ($data['data'] as $key => $value) { 
+        //     $question = Question::find($value['question_id']);
+        //     $question->sort_order = $value['order'];
+        //     $question->update();
+        // }
         
         return $data;
     }
